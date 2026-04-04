@@ -1,0 +1,83 @@
+.footer {
+  background: #080808;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: auto;
+}
+
+.footer-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 64px 24px 32px;
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.footer-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: #e8ff4d;
+  letter-spacing: -0.5px;
+  margin-bottom: 12px;
+}
+
+.footer-tagline {
+  font-family: 'Syne', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fafaf8;
+  margin-bottom: 8px;
+}
+
+.footer-made { font-size: 13px; color: #555; }
+
+.footer-heading {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+}
+
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+.footer-link {
+  font-size: 14px;
+  color: #666;
+  text-decoration: none;
+  transition: color 0.2s;
+  cursor: pointer;
+}
+.footer-link:hover { color: #fafaf8; }
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.footer-copy { font-size: 13px; color: #444; }
+
+@media (max-width: 768px) {
+  .footer-top { grid-template-columns: 1fr; gap: 32px; }
+  .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+}
+
+body.light-mode .footer { background: #d4eaff; border-top-color: rgba(26,127,212,0.15); }
+body.light-mode .footer-logo { color: #1a7fd4; }
+body.light-mode .footer-tagline { color: #0a1628; }
+body.light-mode .footer-made { color: #4a6a8a; }
+body.light-mode .footer-heading { color: #4a6a8a; }
+body.light-mode .footer-link { color: #4a6a8a; }
+body.light-mode .footer-link:hover { color: #0a1628; }
+body.light-mode .footer-copy { color: #6a8aaa; }
+body.light-mode .footer-bottom { border-top-color: rgba(26,127,212,0.1); }

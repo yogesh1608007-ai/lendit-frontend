@@ -1,0 +1,145 @@
+.bottom-nav-wrap {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  width: auto;
+}
+
+.bottom-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 100px;
+  padding: 8px 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* ── Tab Button ─────────────────────────────────────────────── */
+.bottom-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 64px;
+  position: relative;
+}
+
+.bottom-tab:hover {
+  color: #999;
+  background: rgba(255,255,255,0.05);
+}
+
+.bottom-tab--active {
+  color: #e8ff4d;
+  background: rgba(232,255,77,0.08);
+}
+
+.bottom-tab--active:hover {
+  background: rgba(232,255,77,0.12);
+  color: #e8ff4d;
+}
+
+/* ── Tab Icon ───────────────────────────────────────────────── */
+.tab-icon-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Tab Label ──────────────────────────────────────────────── */
+.tab-label {
+  font-size: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* ── Badge ──────────────────────────────────────────────────── */
+.tab-badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #ff4d4d;
+  color: white;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 16px;
+  height: 16px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #141414;
+}
+
+/* ── Center Publish Button ──────────────────────────────────── */
+.bottom-tab--center {
+  padding: 4px 8px;
+  min-width: auto;
+  background: transparent;
+  border: none;
+}
+
+.center-btn {
+  width: 48px;
+  height: 48px;
+  background: var(--accent, #e8ff4d);
+  color: #0a0a0a;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 16px rgba(232,255,77,0.3);
+}
+
+.bottom-tab--center:hover .center-btn {
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(232,255,77,0.4);
+}
+
+.bottom-tab--center:active .center-btn {
+  transform: scale(0.95);
+}
+
+/* ── Light Mode ─────────────────────────────────────────────── */
+body.light-mode .bottom-nav {
+  background: rgba(255,255,255,0.9);
+  border-color: rgba(26,127,212,0.15);
+  box-shadow: 0 8px 32px rgba(26,100,180,0.15), 0 2px 8px rgba(26,100,180,0.1);
+}
+
+body.light-mode .bottom-tab { color: #7a9ab8; }
+body.light-mode .bottom-tab:hover { color: #3a5a80; background: rgba(26,127,212,0.05); }
+body.light-mode .bottom-tab--active { color: #1a7fd4; background: rgba(26,127,212,0.08); }
+body.light-mode .bottom-tab--active:hover { background: rgba(26,127,212,0.12); }
+body.light-mode .center-btn { background: #1a7fd4; color: #ffffff; box-shadow: 0 4px 16px rgba(26,127,212,0.3); }
+body.light-mode .bottom-tab--center:hover .center-btn { box-shadow: 0 6px 20px rgba(26,127,212,0.4); }
+body.light-mode .tab-badge { border-color: #ffffff; }
+
+/* ── Add padding to page so content isn't hidden behind nav ── */
+.app { padding-bottom: 100px; }
+
+@media (max-width: 480px) {
+  .bottom-nav-wrap { bottom: 16px; width: calc(100% - 32px); }
+  .bottom-nav { width: 100%; justify-content: space-around; padding: 8px; }
+  .bottom-tab { min-width: auto; flex: 1; padding: 8px 4px; }
+  .tab-label { font-size: 9px; }
+}
