@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { io } from "socket.io-client";
 import "./PageScreens.css";
 
+const SOCKET_URL = "https://lendit-backend-production.up.railway.app";
+
 const SAMPLE_CHATS = [
-  { id: 1, name: "Rahul Sharma", lastMsg: "Is the bike still available?", time: "2m", unread: 2, avatar: "R" },
-  { id: 2, name: "Priya Singh", lastMsg: "Thanks for lending the camera!", time: "1h", unread: 0, avatar: "P" },
-  { id: 3, name: "Amit Kumar", lastMsg: "Can I pick it up tomorrow?", time: "3h", unread: 1, avatar: "A" },
-  { id: 4, name: "Neha Gupta", lastMsg: "Sure, I'll return it by Friday.", time: "1d", unread: 0, avatar: "N" },
+  { id: 1, name: "Rahul Sharma", lastMsg: "Is the bike still available?", time: "2m", unread: 2, avatar: "R", userId: "user1" },
+  { id: 2, name: "Priya Singh", lastMsg: "Thanks for lending the camera!", time: "1h", unread: 0, avatar: "P", userId: "user2" },
+  { id: 3, name: "Amit Kumar", lastMsg: "Can I pick it up tomorrow?", time: "3h", unread: 1, avatar: "A", userId: "user3" },
 ];
 
 export default function Inbox({ user }) {
@@ -16,6 +18,34 @@ export default function Inbox({ user }) {
     { id: 2, from: "me", text: "Yes it is! When do you need it?", time: "10:32 AM" },
     { id: 3, from: "them", text: "Can I pick it up tomorrow morning?", time: "10:33 AM" },
   ]);
+  const socketRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    if (!user) return;
+
+    // Connect socket
+    socketRef.current = io(SOCKET_URL);
+    socketRef.current.emit("join", user._id);
+
+    // Receive message
+    socketRef.current.on("receiveMessage", ({ senderId, message, time }) => {
+      setMessages(prev => [...prev, {
+        id: Date.now(),
+        from: "them",
+        text: message,
+        time
+      }]);
+    });
+
+    return () => {
+      if (socketRef.current) socketRef.current.disconnect();
+    };
+  }, [user]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   if (!user) {
     return (
@@ -30,8 +60,26 @@ export default function Inbox({ user }) {
   }
 
   const sendMessage = () => {
-    if (!message.trim()) return;
-    setMessages([...messages, { id: Date.now(), from: "me", text: message, time: "Now" }]);
+    if (!message.trim() || !activeChat) return;
+
+    const newMsg = {
+      id: Date.now(),
+      from: "me",
+      text: message,
+      time: new Date().toLocaleTimeString()
+    };
+
+    setMessages(prev => [...prev, newMsg]);
+
+    // Send via socket
+    if (socketRef.current) {
+      socketRef.current.emit("sendMessage", {
+        senderId: user._id,
+        receiverId: activeChat.userId,
+        message
+      });
+    }
+
     setMessage("");
   };
 
@@ -58,6 +106,7 @@ export default function Inbox({ user }) {
               <span className="bubble-time">{msg.time}</span>
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
 
         <div className="chat-input-bar">
@@ -83,8 +132,10 @@ export default function Inbox({ user }) {
   return (
     <div className="page-screen">
       <div className="page-header">
-        <h1 className="page-title">Inbox</h1>
-        <p className="page-subtitle">Your conversations</p>
+        <div>
+          <h1 className="page-title">Inbox</h1>
+          <p className="page-subtitle">Your conversations</p>
+        </div>
       </div>
 
       <div className="chat-list">
