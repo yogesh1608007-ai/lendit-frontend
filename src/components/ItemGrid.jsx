@@ -1,5 +1,7 @@
 import "./ItemGrid.css";
 
+const API_URL = "https://lendit-backend-production.up.railway.app";
+
 function SkeletonCard() {
   return (
     <div className="item-card skeleton">
@@ -17,13 +19,37 @@ function SkeletonCard() {
   );
 }
 
-function ItemCard({ item }) {
+function ItemCard({ item, user }) {
   const image = item.images?.[0] || null;
   const ownerInitial = item.owner?.name?.charAt(0).toUpperCase() || "U";
+  const isOwner = user && item.owner?._id === user._id;
+
+  const handleBorrow = async () => {
+    if (!user) { alert("Please login to send a borrow request!"); return; }
+    if (isOwner) { alert("You cannot borrow your own item!"); return; }
+    try {
+      const token = localStorage.getItem("lendit_token");
+      const res = await fetch(`${API_URL}/api/borrow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ itemId: item._id, message: "I would like to borrow this item." })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("✅ Borrow request sent successfully!");
+      } else {
+        alert(data.message || "Failed to send request");
+      }
+    } catch (err) {
+      alert("Cannot connect to server");
+    }
+  };
 
   return (
     <div className="item-card">
-      {/* Image */}
       <div className="card-img-wrap">
         {image ? (
           <img src={image} alt={item.title} className="card-img" />
@@ -39,7 +65,6 @@ function ItemCard({ item }) {
         <div className="card-category-badge">{item.category}</div>
       </div>
 
-      {/* Body */}
       <div className="card-body">
         <div className="card-meta">
           <div className="card-owner">
@@ -68,14 +93,19 @@ function ItemCard({ item }) {
             <span className="price-amount">{item.pricePerDay}</span>
             <span className="price-unit">/day</span>
           </div>
-          <button className="card-btn">Borrow</button>
+          {!isOwner && (
+            <button className="card-btn" onClick={handleBorrow}>Borrow</button>
+          )}
+          {isOwner && (
+            <span style={{fontSize:"12px", color:"#666"}}>Your item</span>
+          )}
         </div>
       </div>
     </div>
   );
 }
 
-export default function ItemGrid({ items, loading }) {
+export default function ItemGrid({ items, loading, user }) {
   if (loading) {
     return (
       <div className="item-grid">
@@ -97,7 +127,7 @@ export default function ItemGrid({ items, loading }) {
   return (
     <div className="item-grid">
       {items.map((item) => (
-        <ItemCard key={item._id} item={item} />
+        <ItemCard key={item._id} item={item} user={user} />
       ))}
     </div>
   );

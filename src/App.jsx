@@ -182,7 +182,7 @@ export default function App() {
                   <h2 className="section-title">{activeCategory === "All" ? "Recently Listed" : activeCategory}</h2>
                   <span className="item-count">{items.length} items</span>
                 </div>
-                <ItemGrid items={items} loading={loading} />
+                <ItemGrid items={items} loading={loading} user={user} />
               </section>
             </main>
             <Footer />
