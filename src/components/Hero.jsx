@@ -93,24 +93,6 @@ export default function Hero({ searchQuery, setSearchQuery, onSearch }) {
           ))}
         </div>
       </div>
-
-      {/* Stats */}
-      <div className="hero-stats">
-        <div className="stat-item">
-          <span className="stat-num">500+</span>
-          <span className="stat-label">Items Listed</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat-item">
-          <span className="stat-num">200+</span>
-          <span className="stat-label">Happy Borrowers</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat-item">
-          <span className="stat-num">6</span>
-          <span className="stat-label">Categories</span>
-        </div>
-      </div>
     </section>
   );
 }
