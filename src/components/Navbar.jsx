@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Navbar.css";
 
-export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, onListItemClick, onLogoClick, isDarkMode, onToggleTheme }) {
+export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, onLogoClick, isDarkMode, onToggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -19,26 +19,31 @@ export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, 
           <a href="#contact" className="nav-link">Contact</a>
         </div>
 
-        {/* Auth + Theme Toggle */}
+        {/* Auth + Theme + Cart */}
         <div className="navbar-auth">
-          {/* Theme Toggle Button */}
-          <button className="theme-toggle" onClick={onToggleTheme} title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}>
+          <button className="theme-toggle" onClick={onToggleTheme} title={isDarkMode ? "Light Mode" : "Dark Mode"}>
             {isDarkMode ? "☀️" : "🌙"}
+          </button>
+
+          {/* Cart Icon */}
+          <button className="cart-btn" title="Cart" onClick={() => alert("Cart coming soon!")}>
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="9" cy="21" r="1"/>
+              <circle cx="20" cy="21" r="1"/>
+              <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+            </svg>
           </button>
 
           {user ? (
             <div className="user-menu">
-              <div className="user-avatar">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
+              <div className="user-avatar">{user.name?.charAt(0).toUpperCase()}</div>
               <span className="user-name">{user.name}</span>
-              <button className="btn-nav-register" onClick={onListItemClick}>List an Item</button>
               <button className="btn-logout" onClick={onLogout}>Logout</button>
             </div>
           ) : (
             <>
               <button className="btn-nav-login" onClick={onLoginClick}>Login</button>
-              <button className="btn-nav-register" onClick={onListItemClick}>List an Item</button>
+              <button className="btn-nav-register" onClick={onRegisterClick}>Register</button>
             </>
           )}
         </div>
@@ -58,19 +63,5 @@ export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, 
           <button className="theme-toggle" onClick={() => { onToggleTheme(); setMenuOpen(false); }}>
             {isDarkMode ? "☀️ Light Mode" : "🌙 Dark Mode"}
           </button>
-          {user ? (
-            <>
-              <button className="btn-nav-register" onClick={() => { onListItemClick(); setMenuOpen(false); }}>List an Item</button>
-              <button className="btn-logout" onClick={onLogout}>Logout</button>
-            </>
-          ) : (
-            <>
-              <button className="btn-nav-login" onClick={() => { onLoginClick(); setMenuOpen(false); }}>Login</button>
-              <button className="btn-nav-register" onClick={() => { onListItemClick(); setMenuOpen(false); }}>List an Item</button>
-            </>
-          )}
-        </div>
-      )}
-    </nav>
-  );
-}
+          <button className="cart-btn" style={{width:"100%", borderRadius:"8px"}} onClick={() => { alert("Cart coming soon!"); setMenuOpen(false); }}>
+            🛒 Cart
