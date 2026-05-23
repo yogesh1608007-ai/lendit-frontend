@@ -21,27 +21,31 @@ export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, 
 
         {/* Auth + Theme Toggle */}
         <div className="navbar-auth">
-          {/* Theme Toggle Button */}
-          <button className="theme-toggle" onClick={onToggleTheme} title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}>
-            {isDarkMode ? "☀️" : "🌙"}
-          </button>
+  <button className="theme-toggle" onClick={onToggleTheme} title={isDarkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}>
+    {isDarkMode ? "☀️" : "🌙"}
+  </button>
 
-          {user ? (
-            <div className="user-menu">
-              <div className="user-avatar">
-                {user.name?.charAt(0).toUpperCase()}
-              </div>
-              <span className="user-name">{user.name}</span>
-              <button className="btn-nav-register" onClick={onListItemClick}>List an Item</button>
-              <button className="btn-logout" onClick={onLogout}>Logout</button>
-            </div>
-          ) : (
-            <>
-              <button className="btn-nav-login" onClick={onLoginClick}>Login</button>
-              <button className="btn-nav-register" onClick={onListItemClick}>List an Item</button>
-            </>
-          )}
-        </div>
+  {/* Cart Icon */}
+  <button className="cart-btn" title="Cart">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  </button>
+
+  {user ? (
+    <div className="user-menu">
+      <div className="user-avatar">{user.name?.charAt(0).toUpperCase()}</div>
+      <span className="user-name">{user.name}</span>
+      <button className="btn-logout" onClick={onLogout}>Logout</button>
+    </div>
+  ) : (
+    <>
+      <button className="btn-nav-login" onClick={onLoginClick}>Login</button>
+      <button className="btn-nav-register" onClick={onRegisterClick}>Register</button>
+    </>
+  )}
+</div>
 
         {/* Mobile Hamburger */}
         <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
@@ -60,7 +64,6 @@ export default function Navbar({ user, onLoginClick, onRegisterClick, onLogout, 
           </button>
           {user ? (
             <>
-              <button className="btn-nav-register" onClick={() => { onListItemClick(); setMenuOpen(false); }}>List an Item</button>
               <button className="btn-logout" onClick={onLogout}>Logout</button>
             </>
           ) : (
