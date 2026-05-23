@@ -13,7 +13,7 @@ import Inbox from "./components/Inbox";
 import Demand from "./components/Demand";
 import "./App.css";
 
-const API_URL = "https://lendit-backend-production.up.railway.app";
+const API_URL = "http://localhost:3001";
 
 export default function App() {
   const [homeData, setHomeData]         = useState(null);
